@@ -38,7 +38,6 @@ h1{
 .midcontainer{
   height: min(90vh, 600px);
   width: min(90vw,1000px);
-  border: solid black 2px;
   display: flex;
   margin: auto;
 }
