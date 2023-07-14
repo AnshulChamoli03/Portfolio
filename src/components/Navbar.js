@@ -25,7 +25,7 @@ const size = () =>{
         }}
       >
         <div className="container-fluid">
-          <a className="navbar-brand link-light" href="/">
+          <a className="navbar-brand link-light" href="https://anshulchamoli03.github.io/Portfolio/#About">
             Anshul's Portfolio
           </a>
           <button
@@ -45,7 +45,7 @@ const size = () =>{
               <a
                 className="nav-link active link-light"
                 aria-current="page"
-                href="/"
+                href="https://anshulchamoli03.github.io/Portfolio/#About"
               >
                 {" "}
                 Home
