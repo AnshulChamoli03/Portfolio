@@ -1,82 +1,142 @@
-import "./App.css";
-import Navbar from "./components/Navbar";
-import Range from "./components/Range";
-import Intro from "./components/Intro";
-import Image from "./components/Image";
+import React, { Component } from "react";
+import $ from "jquery";
+import "./App.scss";
+import Header from "./components/Header";
 import Footer from "./components/Footer";
+import About from "./components/About";
+import Experience from "./components/Experience";
+import Projects from "./components/Projects";
+import Skills from "./components/Skills";
 
-function App() {
-  return (
-    <>
-      <Navbar />
-      <div className="midcontainer">
-        <Intro />
-        <Image />
+class App extends Component {
+
+  constructor(props) {
+    super();
+    this.state = {
+      foo: "bar",
+      resumeData: {},
+      sharedData: {},
+    };
+  }
+
+  applyPickedLanguage(pickedLanguage, oppositeLangIconId) {
+    this.swapCurrentlyActiveLanguage(oppositeLangIconId);
+    document.documentElement.lang = pickedLanguage;
+    var resumePath =
+      document.documentElement.lang === window.$primaryLanguage
+        ? `res_primaryLanguage.json`
+        : `res_secondaryLanguage.json`;
+    this.loadResumeFromPath(resumePath);
+  }
+
+  swapCurrentlyActiveLanguage(oppositeLangIconId) {
+    var pickedLangIconId =
+      oppositeLangIconId === window.$primaryLanguageIconId
+        ? window.$secondaryLanguageIconId
+        : window.$primaryLanguageIconId;
+    document
+      .getElementById(oppositeLangIconId)
+      .removeAttribute("filter", "brightness(40%)");
+    document
+      .getElementById(pickedLangIconId)
+      .setAttribute("filter", "brightness(40%)");
+  }
+
+  componentDidMount() {
+    this.loadSharedData();
+    this.applyPickedLanguage(
+      window.$primaryLanguage,
+      window.$secondaryLanguageIconId
+    );
+  }
+
+  loadResumeFromPath(path) {
+    $.ajax({
+      url: path,
+      dataType: "json",
+      cache: false,
+      success: function (data) {
+        this.setState({ resumeData: data });
+      }.bind(this),
+      error: function (xhr, status, err) {
+        alert(err);
+      },
+    });
+  }
+
+  loadSharedData() {
+    $.ajax({
+      url: `portfolio_shared_data.json`,
+      dataType: "json",
+      cache: false,
+      success: function (data) {
+        this.setState({ sharedData: data });
+        document.title = `${this.state.sharedData.basic_info.name}`;
+      }.bind(this),
+      error: function (xhr, status, err) {
+        alert(err);
+      },
+    });
+  }
+
+  render() {
+    return (
+      <div>
+        <Header sharedData={this.state.sharedData.basic_info} />
+        <div className="col-md-12 mx-auto text-center language">
+          <div
+            onClick={() =>
+              this.applyPickedLanguage(
+                window.$primaryLanguage,
+                window.$secondaryLanguageIconId
+              )
+            }
+            style={{ display: "inline" }}
+          >
+            <span
+              className="iconify language-icon mr-5"
+              data-icon="twemoji-flag-for-flag-united-kingdom"
+              data-inline="false"
+              id={window.$primaryLanguageIconId}
+            ></span>
+          </div>
+          <div
+            onClick={() =>
+              this.applyPickedLanguage(
+                window.$secondaryLanguage,
+                window.$primaryLanguageIconId
+              )
+            }
+            style={{ display: "inline" }}
+          >
+            <span
+              className="iconify language-icon"
+              data-icon="twemoji-flag-for-flag-spain"
+              data-inline="false"
+              id={window.$secondaryLanguageIconId}
+            ></span>
+          </div>
+        </div>
+        <About
+          resumeBasicInfo={this.state.resumeData.basic_info}
+          sharedBasicInfo={this.state.sharedData.basic_info}
+        />
+        <Projects
+          resumeProjects={this.state.resumeData.projects}
+          resumeBasicInfo={this.state.resumeData.basic_info}
+        />
+        <Skills
+          sharedSkills={this.state.sharedData.skills}
+          resumeBasicInfo={this.state.resumeData.basic_info}
+        />
+        <Experience
+          resumeExperience={this.state.resumeData.experience}
+          resumeBasicInfo={this.state.resumeData.basic_info}
+        />
+        <Footer sharedBasicInfo={this.state.sharedData.basic_info} />
       </div>
-      <hr
-        style={{
-          height: "5px",
-          borderWidth: "0",
-          color: "white",
-          backgroundColor: "white",
-        }}
-      ></hr>
-      <div className="container" id="About">
-        <h1 className="text-center">About</h1>
-        <p className="text-light">
-          Hey
-          <span className="brmedium"></span>
-          Introducing Anshul Chamoli, a talented individual born in 2003 in
-          Gopeshwar, Uttarakhand, India. Anshul follows the Hindu religion and
-          has a diverse range of interests and talents. Having completed high
-          school and intermediate education at KV ONGC Dehradun, Anshul has a
-          strong academic foundation.
-          <span className="brmedium"></span>
-          He is a Results-driven and enthusiastic undergraduate student with a
-          passion for programming, web development, and data analysis.
-          Possessing a strong foundation in Python, data structures, algorithms,
-          JavaScript, and web development, coupled with a keen interest and
-          experience in drama. Skilled in problem-solving, creative thinking,
-          and delivering high-quality projects. Committed to continuous learning
-          and leveraging technology to drive innovation. Seeking opportunities
-          to apply my technical skills and collaborate with diverse teams in a
-          dynamic and challenging environment
-          <span className="brmedium"></span>
-           Beyond academics, Anshul has a passion for
-          the arts. With a keen interest in Dramatics, Anshul enjoys
-          participating in and perhaps even performing in theatrical
-          productions, showcasing their talent and creativity on stage. Anshul
-          is also a skilled singer, using their voice to captivate audiences and
-          express emotions through music.
-          <span className="brmedium"></span>
-           Additionally, Anshul's enthusiasm
-          extends to the realm of sports. Cricket holds a special place in their
-          heart, and they enjoy playing and following the game. Whether it's
-          batting, bowling, or being part of a team, Anshul's involvement in
-          cricket showcases their dedication, teamwork, and love for the sport.
-          <span className="brmedium"></span>
-          With such diverse interests and talents in the arts, music, and
-          sports, Anshul Chamoli is undoubtedly an individual with a vibrant and
-          multifaceted personality, ready to explore and excel in various
-          pursuits. 
-        </p>
-        <p className="text-center text-light">Here's my resume for further Details</p>
-        <a className="link-light link-center" href="/">Resume</a>
-      </div>
-      <hr
-        style={{
-          height: "5px",
-          borderWidth: "0",
-          color: "white",
-          backgroundColor: "white",
-        }}
-      ></hr>
-      <div className="container my-3">
-        <Range />
-      </div>
-      <Footer></Footer>
-    </>
-  );
+    );
+  }
 }
 
 export default App;

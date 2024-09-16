@@ -1,67 +1,38 @@
-import React from 'react'
+import React, { Component } from "react";
 
-export default function Footer() {
-  return (
-    <div id="footer"><footer className="text-center" style={{backgroundColor: "#00ffee"}}>
+class Footer extends Component {
+  render() {
+    if (this.props.sharedBasicInfo) {
+      var networks = this.props.sharedBasicInfo.social.map(function (network) {
+        return (
+          <span key={network.name} className="m-4">
+            <a href={network.url} target="_blank" rel="noopener noreferrer">
+              <i className={network.class}></i>
+            </a>
+          </span>
+        );
+      });
+    }
 
-    <div className="container pt-4">
-      
-      <section className="mb-4"> 
-        <a
-          className="btn btn-link btn-floating btn-lg text-dark m-1"
-          href="#!"
-          role="button"
-          data-mdb-ripple-color="dark"
-          ><i className="fab fa-twitter"></i></a>
-  
-        <a
-          className="btn btn-link btn-floating btn-lg text-dark m-1"
-          href="https://www.google.com/search?q=Anshul+Chamoli&oq=Anshul+Chamoli&aqs=chrome..69i57j69i60.6041j0j7&sourceid=chrome&ie=UTF-8"
-          role="button"
-          data-mdb-ripple-color="dark"
-          ><i className="fab fa-google"></i></a>
-  
-        <a
-          className="btn btn-link btn-floating btn-lg text-dark m-1"
-          href="https://www.instagram.com/anshul.chamoli/"
-          role="button"
-          data-mdb-ripple-color="dark"
-          ><i className="fab fa-instagram"></i></a>
-  
+    return (
+      <footer>
+        <div className="col-md-12">
+          <div className="social-links">{networks}</div>
 
-        <a
-          className="btn btn-link btn-floating btn-lg text-dark m-1"
-          href="https://www.linkedin.com/in/anshul-chamoli-32614a227/"
-          role="button"
-          data-mdb-ripple-color="dark"
-          ><i className="fab fa-linkedin"></i></a>
-        
-        <a
-          className="btn btn-link btn-floating btn-lg text-dark m-1"
-          href="https://github.com/AnshulChamoli03"
-          role="button"
-          data-mdb-ripple-color="dark"
-          ><i className="fab fa-github"></i></a>
-        
-        <a
-          className="btn btn-link btn-floating btn-lg text-dark m-1"
-          href="https://www.facebook.com/profile.php?id=100017548488591"
-          role="button"
-          data-mdb-ripple-color="dark"
-          ><i className="fab fa-facebook-f"></i></a>
- 
-      </section>
-      
-    </div>
-
-  
-
-    <div className="text-center text-light p-3" style={{backgroundColor: "rgb(61 168 177)"}}>
-      Designed By Anshul Chamoli
-    </div>
- 
-  </footer>
-      
-    </div>
-  )
+          <div className="copyright py-4 text-center">
+            <div className="container">
+              <small>
+                Copyright &copy;{" "}
+                {this.props.sharedBasicInfo
+                  ? this.props.sharedBasicInfo.name
+                  : "???"}
+              </small>
+            </div>
+          </div>
+        </div>
+      </footer>
+    );
+  }
 }
+
+export default Footer;
