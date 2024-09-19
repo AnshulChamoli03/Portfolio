@@ -1,0 +1,119 @@
+{
+    "basic_info": {
+      "description_header": "Hi",
+      "description": "👋 Introducing Anshul Chamoli, a talented individual born in 2003 in Gopeshwar, Uttarakhand, India. Anshul follows the Hindu religion and has a diverse range of interests and talents. Having completed high school and intermediate education at KV ONGC Dehradun, Anshul has a strong academic foundation. He is a Results-driven and enthusiastic undergraduate student with a passion for programming, web development, and data analysis. Possessing a strong foundation in Python, data structures, algorithms, JavaScript, and web development, coupled with a keen interest and experience in drama. Skilled in problem-solving, creative thinking, and delivering high-quality projects. Committed to continuous learning and leveraging  technology to drive innovation. Seeking opportunities to apply my technical skills and collaborate with diverse teams in a dynamic and challenging environment",
+      "section_name": {
+        "about": "About me",
+        "projects": "Projects",
+        "skills": "Skills",
+        "experience": "Experience"
+      }
+    },
+    "projects": [
+      {
+        "title": "RAG ChatBot",
+        "startDate": "2024",
+      "description": " Created a chatbot using an OpenAI LLM model that reads data from a user specific folder and files and answers queries of user based on given data. Implemented using Different python libraries like Langchain and GUI is created by Tkinter.",
+        "images": [
+          "images/portfolio/RagChatbot/face.png",
+          "images/portfolio/RagChatbot/backend.png"
+        ],
+        "url": "https://github.com/AnshulChamoli03/RAG_Chatbot",
+        "technologies": [
+          {
+            "class": "devicon-python-plain",
+            "name": "Python"
+          },
+          {
+            "class": "devicon-openal-plain",
+            "name": "OpenAi"
+          },
+          {
+            "class": "devicon-csharp-plain",
+            "name": "C#"
+          }
+        ]
+      },
+      {
+        "title": "Wine-Quality-Check-Model",
+        "startDate": "2023",
+        "description": " Performed various different machine learning algorithms like regression, decision tree, random forests, etc and differentiate between the models and analyse their performances to choose best one for dataset.Implemented using Different python libraries like pandas, Scikit-learn, numpy, etc.",
+        "images": [
+          "images/portfolio/Wine_quality_check/ml_essential_tool.jpg",
+          "images/portfolio/Wine_quality_check/images.jfif"
+        ],
+        "url": "https://github.com/AnshulChamoli03/Wine-quality-Check-Model",
+        "technologies": [
+          {
+            "class": "devicon-numpy-plain",
+            "name": "Numpy"
+          },
+          {
+            "class": "devicon-pandas-plain",
+            "name": "Pandas"
+          },
+          {
+            "class": "devicon-scikitlearn-plain",
+            "name": "Scikit-Learn"
+          }
+        ]
+      },
+      {
+        "title": "Weather Forecast App",
+        "startDate": "2023",
+        "description": " Created a web applications for weather forecast to show weather for upcoming seven days. It uses Fetch API for backend with JS and HTML and CSS for frontend.",
+        "images": [
+          "images/portfolio/photography/frontend.png"
+        ],
+        "url": "https://github.com/AnshulChamoli03/Web-development-Projects/tree/main/Weather%20Forecast%20App",
+        "technologies": [
+          {
+            "class": "devicon-html5-plain",
+            "name": "Html5"
+          },
+          {
+            "class": "devicon-javascript-plain",
+            "name": "Javascript"
+          },
+          {
+            "class": "devicon-css3-plain",
+            "name": "CSS3"
+          }
+        ]
+      }
+    ],
+    "experience": [
+      {
+        "company": "Accenture LTD.",
+        "title": "AEH Intern",
+        "years": "05.2024 - 07.2024",
+        "mainTech": [
+          "Python"
+        ],
+        "technologies": [
+          "Langchain",
+          "Graph API",
+          "JavaScript",
+          "Bootstrap",
+          "PyViz",
+          "Tkinter",
+          "OpenAI"
+        ]
+      },
+      {
+        "company": "MetSoc",
+        "title": "Web Development Intern",
+        "years": "02.2023 - 03.2023",
+        "mainTech": [
+          "HTML5"
+        ],
+        "technologies": [
+          "Github",
+          "CSS",
+          "HTML5",
+          "JavaScript",
+          "Git"
+        ]
+      }
+    ]
+  }
