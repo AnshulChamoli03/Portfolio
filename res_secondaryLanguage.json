@@ -15,22 +15,13 @@
         "startDate": "2024",
       "description": " Creé un chatbot utilizando un modelo OpenAI LLM que lee datos de una carpeta y archivos específicos del usuario y responde consultas del usuario en función de los datos proporcionados. Implementado utilizando diferentes bibliotecas de Python como Langchain y GUI creada por Tkinter.",
         "images": [
-          "images/portfolio/RagChatbot/face.png",
-          "images/portfolio/RagChatbot/backend.png"
+          "images/portfolio/RagChatbot/face.png"
         ],
         "url": "https://github.com/AnshulChamoli03/RAG_Chatbot",
         "technologies": [
           {
             "class": "devicon-python-plain",
             "name": "Python"
-          },
-          {
-            "class": "devicon-openal-plain",
-            "name": "OpenAi"
-          },
-          {
-            "class": "devicon-csharp-plain",
-            "name": "C#"
           }
         ]
       },
