@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import $ from "jquery";
+import React, { useState, useEffect, createContext, useContext } from "react";
+import axios from "axios";
 import "./App.scss";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -8,87 +8,86 @@ import Experience from "./components/Experience";
 import Projects from "./components/Projects";
 import Skills from "./components/Skills";
 
-class App extends Component {
+// Language context
+export const LanguageContext = createContext();
 
-  constructor(props) {
-    super();
-    this.state = {
-      foo: "bar",
-      resumeData: {},
-      sharedData: {},
-    };
-  }
+const PRIMARY_LANGUAGE = 'en';
+const SECONDARY_LANGUAGE = 'pl';
+const PRIMARY_LANGUAGE_ICON_ID = 'primary-lang-icon';
+const SECONDARY_LANGUAGE_ICON_ID = 'secondary-lang-icon';
 
-  applyPickedLanguage(pickedLanguage, oppositeLangIconId) {
-    this.swapCurrentlyActiveLanguage(oppositeLangIconId);
+function App() {
+  const [resumeData, setResumeData] = useState({});
+  const [sharedData, setSharedData] = useState({});
+  const [language, setLanguage] = useState(PRIMARY_LANGUAGE);
+
+  // Helper to get the opposite icon id
+  const getOppositeLangIconId = (lang) =>
+    lang === PRIMARY_LANGUAGE ? SECONDARY_LANGUAGE_ICON_ID : PRIMARY_LANGUAGE_ICON_ID;
+
+  // Helper to get the opposite language
+  const getOppositeLanguage = (lang) =>
+    lang === PRIMARY_LANGUAGE ? SECONDARY_LANGUAGE : PRIMARY_LANGUAGE;
+
+  const applyPickedLanguage = (pickedLanguage, oppositeLangIconId) => {
+    swapCurrentlyActiveLanguage(oppositeLangIconId);
     document.documentElement.lang = pickedLanguage;
+    setLanguage(pickedLanguage);
     var resumePath =
-      document.documentElement.lang === window.$primaryLanguage
+      pickedLanguage === PRIMARY_LANGUAGE
         ? `res_primaryLanguage.json`
         : `res_secondaryLanguage.json`;
-    this.loadResumeFromPath(resumePath);
-  }
+    loadResumeFromPath(resumePath);
+  };
 
-  swapCurrentlyActiveLanguage(oppositeLangIconId) {
+  const swapCurrentlyActiveLanguage = (oppositeLangIconId) => {
     var pickedLangIconId =
-      oppositeLangIconId === window.$primaryLanguageIconId
-        ? window.$secondaryLanguageIconId
-        : window.$primaryLanguageIconId;
+      oppositeLangIconId === PRIMARY_LANGUAGE_ICON_ID
+        ? SECONDARY_LANGUAGE_ICON_ID
+        : PRIMARY_LANGUAGE_ICON_ID;
     document
       .getElementById(oppositeLangIconId)
-      .removeAttribute("filter", "brightness(40%)");
+      ?.removeAttribute("filter", "brightness(40%)");
     document
       .getElementById(pickedLangIconId)
-      .setAttribute("filter", "brightness(40%)");
-  }
+      ?.setAttribute("filter", "brightness(40%)");
+  };
 
-  componentDidMount() {
-    this.loadSharedData();
-    this.applyPickedLanguage(
-      window.$primaryLanguage,
-      window.$secondaryLanguageIconId
-    );
-  }
+  const loadResumeFromPath = async (path) => {
+    try {
+      const response = await axios.get(path, { cache: 'no-store' });
+      setResumeData(response.data);
+    } catch (err) {
+      alert(err);
+    }
+  };
 
-  loadResumeFromPath(path) {
-    $.ajax({
-      url: path,
-      dataType: "json",
-      cache: false,
-      success: function (data) {
-        this.setState({ resumeData: data });
-      }.bind(this),
-      error: function (xhr, status, err) {
-        alert(err);
-      },
-    });
-  }
+  const loadSharedData = async () => {
+    try {
+      const response = await axios.get(`portfolio_shared_data.json`, { cache: 'no-store' });
+      setSharedData(response.data);
+      document.title = `${response.data.basic_info.name}`;
+    } catch (err) {
+      alert(err);
+    }
+  };
 
-  loadSharedData() {
-    $.ajax({
-      url: `portfolio_shared_data.json`,
-      dataType: "json",
-      cache: false,
-      success: function (data) {
-        this.setState({ sharedData: data });
-        document.title = `${this.state.sharedData.basic_info.name}`;
-      }.bind(this),
-      error: function (xhr, status, err) {
-        alert(err);
-      },
-    });
-  }
+  useEffect(() => {
+    loadSharedData();
+    applyPickedLanguage(PRIMARY_LANGUAGE, SECONDARY_LANGUAGE_ICON_ID);
+    // eslint-disable-next-line
+  }, []);
 
-  render() {
-    return (
+  return (
+    <LanguageContext.Provider value={{ language, setLanguage }}>
       <div>
-        <Header sharedData={this.state.sharedData.basic_info} />
+        <Header sharedData={sharedData.basic_info} />
         <div className="col-md-12 mx-auto text-center language">
           <div
             onClick={() =>
-              this.applyPickedLanguage(
-                window.$primaryLanguage,
-                window.$secondaryLanguageIconId
+              applyPickedLanguage(
+                PRIMARY_LANGUAGE,
+                SECONDARY_LANGUAGE_ICON_ID
               )
             }
             style={{ display: "inline" }}
@@ -97,14 +96,14 @@ class App extends Component {
               className="iconify language-icon mr-5"
               data-icon="twemoji-flag-for-flag-united-kingdom"
               data-inline="false"
-              id={window.$primaryLanguageIconId}
+              id={PRIMARY_LANGUAGE_ICON_ID}
             ></span>
           </div>
           <div
             onClick={() =>
-              this.applyPickedLanguage(
-                window.$secondaryLanguage,
-                window.$primaryLanguageIconId
+              applyPickedLanguage(
+                SECONDARY_LANGUAGE,
+                PRIMARY_LANGUAGE_ICON_ID
               )
             }
             style={{ display: "inline" }}
@@ -113,30 +112,30 @@ class App extends Component {
               className="iconify language-icon"
               data-icon="twemoji-flag-for-flag-spain"
               data-inline="false"
-              id={window.$secondaryLanguageIconId}
+              id={SECONDARY_LANGUAGE_ICON_ID}
             ></span>
           </div>
         </div>
         <About
-          resumeBasicInfo={this.state.resumeData.basic_info}
-          sharedBasicInfo={this.state.sharedData.basic_info}
+          resumeBasicInfo={resumeData.basic_info}
+          sharedBasicInfo={sharedData.basic_info}
         />
         <Projects
-          resumeProjects={this.state.resumeData.projects}
-          resumeBasicInfo={this.state.resumeData.basic_info}
+          resumeProjects={resumeData.projects}
+          resumeBasicInfo={resumeData.basic_info}
         />
         <Skills
-          sharedSkills={this.state.sharedData.skills}
-          resumeBasicInfo={this.state.resumeData.basic_info}
+          sharedSkills={sharedData.skills}
+          resumeBasicInfo={resumeData.basic_info}
         />
         <Experience
-          resumeExperience={this.state.resumeData.experience}
-          resumeBasicInfo={this.state.resumeData.basic_info}
+          resumeExperience={resumeData.experience}
+          resumeBasicInfo={resumeData.basic_info}
         />
-        <Footer sharedBasicInfo={this.state.sharedData.basic_info} />
+        <Footer sharedBasicInfo={sharedData.basic_info} />
       </div>
-    );
-  }
+    </LanguageContext.Provider>
+  );
 }
 
 export default App;

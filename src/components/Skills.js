@@ -1,10 +1,12 @@
-import React, { Component } from "react";
+import React, { useContext } from "react";
+import { LanguageContext } from "../App";
 
-class Skills extends Component {
-  render() {
-    if (this.props.sharedSkills && this.props.resumeBasicInfo) {
-      var sectionName = this.props.resumeBasicInfo.section_name.skills;
-      var skills = this.props.sharedSkills.icons.map(function (skills, i) {
+function Skills({ sharedSkills, resumeBasicInfo }) {
+  const { language } = useContext(LanguageContext);
+
+  let sectionName = resumeBasicInfo ? resumeBasicInfo.section_name.skills : "";
+  let skills = sharedSkills && sharedSkills.icons
+    ? sharedSkills.icons.map(function (skills, i) {
         return (
           <li className="list-inline-item mx-3" key={i}>
             <span>
@@ -21,24 +23,23 @@ class Skills extends Component {
             </span>
           </li>
         );
-      });
-    }
+      })
+    : [];
 
-    return (
-      <section id="skills">
+  return (
+    <section id="skills">
+      <div className="col-md-12">
         <div className="col-md-12">
-          <div className="col-md-12">
-            <h1 className="section-title">
-              <span className="text-white">{sectionName}</span>
-            </h1>
-          </div>
-          <div className="col-md-12 text-center">
-            <ul className="list-inline mx-auto skill-icon">{skills}</ul>
-          </div>
+          <h1 className="section-title">
+            <span className="text-white">{sectionName}</span>
+          </h1>
         </div>
-      </section>
-    );
-  }
+        <div className="col-md-12 text-center">
+          <ul className="list-inline mx-auto skill-icon">{skills}</ul>
+        </div>
+      </div>
+    </section>
+  );
 }
 
 export default Skills;
